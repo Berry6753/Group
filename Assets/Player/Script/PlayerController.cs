@@ -23,6 +23,7 @@ public class PlayerController : Singleton<PlayerController>
     public CinemachineVirtualCamera overView;
     public CinemachineVirtualCamera aimView;
     public GameObject aim;
+    public GameObject gun;
 
     public GameObject sss;
 
@@ -52,7 +53,7 @@ public class PlayerController : Singleton<PlayerController>
     private float attakingTime = 3.0f;
     private float rootSpeed = 3.0f;
     private float yRotate;
-    private float xRoatte;
+    private float xRotate;
     private int comboCount = 0;
     private bool isCrouching = false;
     private bool isJump = false;
@@ -86,11 +87,11 @@ public class PlayerController : Singleton<PlayerController>
 
     private void LateUpdate()
     {
-        //if (isAimming)
-        //{
-        //    aaa.rotation = Quaternion.Euler(0f, 0, yRotate * rootSpeed);
-
-        //}
+        if (isAimming)
+        {
+            //aaa.rotation = Quaternion.Euler(0f, 0, yRotate * rootSpeed);
+           // gun.transform.Rotate(yRotate * rootSpeed, 0, 0);
+        }
     }
 
     // Update is called once per frame
@@ -109,21 +110,31 @@ public class PlayerController : Singleton<PlayerController>
         AttackingTimeCheck();
         MoveAssasingTarget();
         PlayerRotate();
-        aimView.LookAt = aim.transform;
+        if (isAimming)
+        {
+            //aaa.rotation = Quaternion.Euler(0f, 0, yRotate * rootSpeed);
+            //transform.Rotate(0f, Input.GetAxis("Mouse X") * rootSpeed, 0f);
+            gun.transform.Rotate(yRotate , 0f, 0f);
+        }
+        //aimView.LookAt = aim.transform;
     }
 
     private void OnAimming()
     {
         if (isAimming)
         {
-            overView.gameObject.SetActive(true);
-            aimView.gameObject.SetActive(false);
+            overView.Priority = 10;
+            aimView.Priority = 0;
+           // overView.gameObject.SetActive(true);
+           // aimView.gameObject.SetActive(false);
             isAimming = false;
         }
         else
         {
-            aimView.gameObject.SetActive(true);
-            overView.gameObject.SetActive(false);
+            overView.Priority = 0;
+            aimView.Priority = 10;
+            //aimView.gameObject.SetActive(true);
+           // overView.gameObject.SetActive(false);
             isAimming = true;
         }
     }
@@ -153,8 +164,9 @@ public class PlayerController : Singleton<PlayerController>
     private void PlayerRotate()
     {
         transform.Rotate(0f, Input.GetAxis("Mouse X") * rootSpeed, 0f);
-        //yRotate += Input.GetAxis("Mouse Y") * rootSpeed;
-       // yRotate = Mathf.Clamp(yRotate, 50, 100);
+        gun.transform.rotation = transform.rotation;
+        yRotate += -Input.GetAxis("Mouse Y") * rootSpeed;
+        yRotate = Mathf.Clamp(yRotate, -80, 3);
         
 
 
