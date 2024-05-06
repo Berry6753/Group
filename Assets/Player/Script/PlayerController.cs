@@ -229,12 +229,8 @@ public class PlayerController : Singleton<PlayerController>
         if (attackType == PlayerAttackType.ASSASING)
         {
             target.transform.position = assasingPos.transform.position;
-<<<<<<< HEAD
             target.transform.rotation = assasingPos.transform.rotation;
             
-=======
->>>>>>> parent of 18d7167 (ssdsad)
-        }
     }
 
     private void AssaingAttack()
