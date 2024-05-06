@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class GunController : MonoBehaviour
 {
@@ -18,7 +19,7 @@ public class GunController : MonoBehaviour
     private RaycastHit hit; // 레이저 충돌 정보
 
     
-    [SerializeField] private Camera cam;
+    [SerializeField] private CinemachineVirtualCamera cam;
     private Crosshair crosshair;
 
     [SerializeField] private GameObject hit_effect_prefab;
@@ -32,10 +33,10 @@ public class GunController : MonoBehaviour
     void Update()
     {
         GunFireRateCalc();
-        TryFire();
+        //TryFire();
         TryReload();
-        TryFindSight();
-        Debug.DrawRay(cam.transform.position, cam.transform.forward, Color.red, gun.range);
+        //TryFindSight();
+        //Debug.DrawRay(cam.transform.position, cam.transform.forward, Color.red, gun.range);
     }
 
     // 연사속도 재계산
@@ -48,9 +49,9 @@ public class GunController : MonoBehaviour
     }
 
     // 발사 시도
-    private void TryFire()
+    public void TryFire()
     { 
-        if(Input.GetMouseButtonDown(0) && currentFireRate <= 0 && !isReload)
+        if(/*Input.GetMouseButtonDown(0) && */currentFireRate <= 0 && !isReload)
         {
             Fire();
         }

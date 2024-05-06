@@ -24,6 +24,8 @@ public class PlayerController : Singleton<PlayerController>
     public CinemachineVirtualCamera aimView;
     public GameObject aim;
     public GameObject gun;
+    public GameObject cross;
+    public GameObject skin;
 
     public GameObject sss;
 
@@ -77,6 +79,8 @@ public class PlayerController : Singleton<PlayerController>
         aaa = playerAnimator.GetBoneTransform(HumanBodyBones.Spine);
         leftHandAttackPos.SetActive(false);
         rightHandAttackPos.SetActive(false);
+        gun.SetActive(false);
+        cross.SetActive(false);
         jumpDirection.y = jumpForce;
     }
 
@@ -123,14 +127,22 @@ public class PlayerController : Singleton<PlayerController>
     {
         if (isAimming)
         {
+            gun.SetActive(false);
+            cross.SetActive(false);
+            skin.GetComponent<SkinnedMeshRenderer>().enabled = true;
             overView.Priority = 10;
             aimView.Priority = 0;
-           // overView.gameObject.SetActive(true);
-           // aimView.gameObject.SetActive(false);
+            // overView.gameObject.SetActive(true);
+            // aimView.gameObject.SetActive(false);
+            attackType = PlayerAttackType.NOMAL;
             isAimming = false;
         }
         else
         {
+            gun.SetActive(true);
+            cross.SetActive(true);
+            skin.GetComponent<SkinnedMeshRenderer>().enabled = false;
+            attackType = PlayerAttackType.AIMMING;
             overView.Priority = 0;
             aimView.Priority = 10;
             //aimView.gameObject.SetActive(true);
@@ -155,9 +167,9 @@ public class PlayerController : Singleton<PlayerController>
         
     }
 
-    private void CamaraChange()
+    private void AimmingAttack()
     {
-
+        gun.GetComponent<GunController>().TryFire();
     }
 
 
@@ -166,7 +178,7 @@ public class PlayerController : Singleton<PlayerController>
         transform.Rotate(0f, Input.GetAxis("Mouse X") * rootSpeed, 0f);
         gun.transform.rotation = transform.rotation;
         yRotate += -Input.GetAxis("Mouse Y") * rootSpeed;
-        yRotate = Mathf.Clamp(yRotate, -80, 3);
+        yRotate = Mathf.Clamp(yRotate, -60, 10);
         
 
 
@@ -243,6 +255,7 @@ public class PlayerController : Singleton<PlayerController>
                 AssaingAttack();
                 break;
             case PlayerAttackType.AIMMING:
+                AimmingAttack();
                 break;
         }
 
