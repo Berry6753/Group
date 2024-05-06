@@ -86,11 +86,11 @@ public class PlayerController : Singleton<PlayerController>
 
     private void LateUpdate()
     {
-        if (isAimming)
-        {
-            aaa.rotation = Quaternion.Euler(0f, 0, yRotate * rootSpeed);
+        //if (isAimming)
+        //{
+        //    aaa.rotation = Quaternion.Euler(0f, 0, yRotate * rootSpeed);
 
-        }
+        //}
     }
 
     // Update is called once per frame
@@ -127,6 +127,23 @@ public class PlayerController : Singleton<PlayerController>
             isAimming = true;
         }
     }
+
+    private void OnDash()
+    {
+        if (!isAssasingAttack)
+        {
+            if (moveSpeed == 1)
+            {
+                moveSpeed = 3;
+            }
+            else if (moveSpeed == 3)
+            {
+                moveSpeed = 1;
+            }
+        }
+        
+    }
+
     private void CamaraChange()
     {
 
@@ -136,8 +153,8 @@ public class PlayerController : Singleton<PlayerController>
     private void PlayerRotate()
     {
         transform.Rotate(0f, Input.GetAxis("Mouse X") * rootSpeed, 0f);
-        yRotate += Input.GetAxis("Mouse Y") * rootSpeed;
-        yRotate = Mathf.Clamp(yRotate, 50, 100);
+        //yRotate += Input.GetAxis("Mouse Y") * rootSpeed;
+       // yRotate = Mathf.Clamp(yRotate, 50, 100);
         
 
 
@@ -229,6 +246,10 @@ public class PlayerController : Singleton<PlayerController>
         {
             target.transform.position = assasingPos.transform.position;
             target.transform.rotation = assasingPos.transform.rotation;
+<<<<<<< HEAD
+=======
+            
+>>>>>>> parent of ac98b1e (sss)
         }
     }
 
