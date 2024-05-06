@@ -173,11 +173,11 @@ public class PlayerController : Singleton<PlayerController>
             {
                 isCrouching = true;
                 moveSpeed = 1.0f;
-                //¾Ö´Ï¼¼ÆÃ
+                //ï¿½Ö´Ï¼ï¿½ï¿½ï¿½
                 playerAnimator.SetBool("IsCrouching", true);
-                //¾É±âÀÏ °æ¿ì 0, 0.49 ,0
+                //ï¿½É±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ 0, 0.49 ,0
                 characterController.center = new Vector3(0, 0.49f, 0);
-                //³ôÀÌ 1
+                //ï¿½ï¿½ï¿½ï¿½ 1
                 characterController.height = 1;
 
             }
@@ -185,11 +185,11 @@ public class PlayerController : Singleton<PlayerController>
             {
                 isCrouching = false;
                 moveSpeed = 1.0f;
-                //¾Ö´Ï¼¼ÆÃ
+                //ï¿½Ö´Ï¼ï¿½ï¿½ï¿½
                 playerAnimator.SetBool("IsCrouching", false);
-                //Ä³¸¯ÅÍ ÄÁÆ®·Ñ·¯ ÄÝ¸®Àü ¼¼ÆÃ ¼¾ÅÍ°ª 0 , 0.99 ,0
+                //Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ®ï¿½Ñ·ï¿½ ï¿½Ý¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Í°ï¿½ 0 , 0.99 ,0
                 characterController.center = new Vector3(0, 0.99f, 0);
-                //³ôÀÌ 1.8
+                //ï¿½ï¿½ï¿½ï¿½ 1.8
                 characterController.height = 1.8f;
             }
 
@@ -206,16 +206,15 @@ public class PlayerController : Singleton<PlayerController>
             attackType = PlayerAttackType.ASSASING;
             isCrouching = false;
             moveSpeed = 1.0f;
-            //¾Ö´Ï¼¼ÆÃ
+            //ï¿½Ö´Ï¼ï¿½ï¿½ï¿½
             //playerAnimator.SetLayerWeight(1, 1);
             playerAnimator.SetBool("IsCrouching", false);
             playerAnimator.SetTrigger("AssasingAttackStart");
-            //Ä³¸¯ÅÍ ÄÁÆ®·Ñ·¯ ÄÝ¸®Àü ¼¼ÆÃ ¼¾ÅÍ°ª 0 , 0.99 ,0
+            //Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ®ï¿½Ñ·ï¿½ ï¿½Ý¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Í°ï¿½ 0 , 0.99 ,0
             characterController.center = new Vector3(0, 0.99f, 0);
-            //³ôÀÌ 1.8
+            //ï¿½ï¿½ï¿½ï¿½ 1.8
             characterController.height = 1.8f;
             target.gameObject.GetComponent<CapsuleCollider>().isTrigger = true;
-            target.gameObject.GetComponent<Monster>().stateMachine.ChangeState(Monster.State.Assassinated);
         }
         
     }
@@ -247,7 +246,6 @@ public class PlayerController : Singleton<PlayerController>
         {
             target.transform.position = assasingPos.transform.position;
             target.transform.rotation = assasingPos.transform.rotation;
-            
         }
     }
 
@@ -362,7 +360,7 @@ public class PlayerController : Singleton<PlayerController>
         public override void Enter()
         {
             player.playerState = PlayerStateName.IDLE;
-            //¾Ö´Ï¸ÞÀÌ¼Ç ¼¼ÆÃ
+            //ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½ï¿½ï¿½ï¿½
             player.SetAnimatorFloat(0, 0);
             
             
