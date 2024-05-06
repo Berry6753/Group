@@ -484,7 +484,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 146843614}
-  m_LocalRotation: {x: 0.14130163, y: 0.06012647, z: -0.008598275, w: 0.9881016}
+  m_LocalRotation: {x: 0.14132382, y: -0.057520516, z: 0.008225615, w: 0.9882567}
   m_LocalPosition: {x: 0.61759984, y: 2.1499996, z: -9.860001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -555,8 +555,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 315315727}
-  m_LocalRotation: {x: 0.10696367, y: -0.0000000073528166, z: 7.910224e-10, w: 0.99426293}
-  m_LocalPosition: {x: 0.12000001, y: 1.8231665, z: -7.743389}
+  m_LocalRotation: {x: 0.0033970717, y: -0.01098067, z: 0.000037304588, w: 0.99993396}
+  m_LocalPosition: {x: 0.39, y: 1.613, z: -8.296}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -719,8 +719,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 450362180}
-  m_LocalRotation: {x: 0.10696367, y: -0.0000000073528166, z: 7.910224e-10, w: 0.99426293}
-  m_LocalPosition: {x: 0.12000001, y: 1.8231665, z: -7.743389}
+  m_LocalRotation: {x: 0.14132382, y: -0.057520516, z: 0.008225615, w: 0.9882567}
+  m_LocalPosition: {x: 0.61759984, y: 2.1499996, z: -9.860001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3357,8 +3357,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: man_reporter
       objectReference: {fileID: 0}
-    - target: {fileID: 4943866805617529569, guid: 872c2999c22c9f942a754d3a4010fe68, type: 3}
-      propertyPath: cam
+    - target: {fileID: 5100242899380309364, guid: 872c2999c22c9f942a754d3a4010fe68, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8490463402239616594, guid: 872c2999c22c9f942a754d3a4010fe68, type: 3}
+      propertyPath: m_Avatar
       value: 
       objectReference: {fileID: 315315728}
     - target: {fileID: 6006380371230306968, guid: 872c2999c22c9f942a754d3a4010fe68, type: 3}
