@@ -230,7 +230,7 @@ public class PlayerController : Singleton<PlayerController>
         {
             target.transform.position = assasingPos.transform.position;
             target.transform.rotation = assasingPos.transform.rotation;
-            
+        }
     }
 
     private void AssaingAttack()
