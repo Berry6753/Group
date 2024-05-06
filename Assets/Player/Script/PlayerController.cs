@@ -23,6 +23,9 @@ public class PlayerController : Singleton<PlayerController>
     public CinemachineVirtualCamera overView;
     public CinemachineVirtualCamera aimView;
     public GameObject aim;
+    public GameObject gun;
+    public GameObject cross;
+    public GameObject skin;
 
     public GameObject sss;
 
@@ -52,7 +55,7 @@ public class PlayerController : Singleton<PlayerController>
     private float attakingTime = 3.0f;
     private float rootSpeed = 3.0f;
     private float yRotate;
-    private float xRoatte;
+    private float xRotate;
     private int comboCount = 0;
     private bool isCrouching = false;
     private bool isJump = false;
@@ -76,6 +79,8 @@ public class PlayerController : Singleton<PlayerController>
         aaa = playerAnimator.GetBoneTransform(HumanBodyBones.Spine);
         leftHandAttackPos.SetActive(false);
         rightHandAttackPos.SetActive(false);
+        gun.SetActive(false);
+        cross.SetActive(false);
         jumpDirection.y = jumpForce;
     }
 
@@ -88,8 +93,8 @@ public class PlayerController : Singleton<PlayerController>
     {
         if (isAimming)
         {
-            aaa.rotation = Quaternion.Euler(0f, 0, yRotate * rootSpeed);
-
+            //aaa.rotation = Quaternion.Euler(0f, 0, yRotate * rootSpeed);
+           // gun.transform.Rotate(yRotate * rootSpeed, 0, 0);
         }
     }
 
@@ -109,35 +114,71 @@ public class PlayerController : Singleton<PlayerController>
         AttackingTimeCheck();
         MoveAssasingTarget();
         PlayerRotate();
-        aimView.LookAt = aim.transform;
+        if (isAimming)
+        {
+            //aaa.rotation = Quaternion.Euler(0f, 0, yRotate * rootSpeed);
+            //transform.Rotate(0f, Input.GetAxis("Mouse X") * rootSpeed, 0f);
+            gun.transform.Rotate(yRotate , 0f, 0f);
+        }
+        //aimView.LookAt = aim.transform;
     }
 
     private void OnAimming()
     {
         if (isAimming)
         {
-            overView.gameObject.SetActive(true);
-            aimView.gameObject.SetActive(false);
+            gun.SetActive(false);
+            cross.SetActive(false);
+            skin.GetComponent<SkinnedMeshRenderer>().enabled = true;
+            overView.Priority = 10;
+            aimView.Priority = 0;
+            // overView.gameObject.SetActive(true);
+            // aimView.gameObject.SetActive(false);
+            attackType = PlayerAttackType.NOMAL;
             isAimming = false;
         }
         else
         {
-            aimView.gameObject.SetActive(true);
-            overView.gameObject.SetActive(false);
+            gun.SetActive(true);
+            cross.SetActive(true);
+            skin.GetComponent<SkinnedMeshRenderer>().enabled = false;
+            attackType = PlayerAttackType.AIMMING;
+            overView.Priority = 0;
+            aimView.Priority = 10;
+            //aimView.gameObject.SetActive(true);
+           // overView.gameObject.SetActive(false);
             isAimming = true;
         }
     }
-    private void CamaraChange()
-    {
 
+    private void OnDash()
+    {
+        if (!isAssasingAttack)
+        {
+            if (moveSpeed == 1)
+            {
+                moveSpeed = 3;
+            }
+            else if (moveSpeed == 3)
+            {
+                moveSpeed = 1;
+            }
+        }
+        
+    }
+
+    private void AimmingAttack()
+    {
+        gun.GetComponent<GunController>().TryFire();
     }
 
 
     private void PlayerRotate()
     {
         transform.Rotate(0f, Input.GetAxis("Mouse X") * rootSpeed, 0f);
-        yRotate += Input.GetAxis("Mouse Y") * rootSpeed;
-        yRotate = Mathf.Clamp(yRotate, 50, 100);
+        gun.transform.rotation = transform.rotation;
+        yRotate += -Input.GetAxis("Mouse Y") * rootSpeed;
+        yRotate = Mathf.Clamp(yRotate, -60, 10);
         
 
 
@@ -156,11 +197,11 @@ public class PlayerController : Singleton<PlayerController>
             {
                 isCrouching = true;
                 moveSpeed = 1.0f;
-                //¾Ö´Ï¼¼ÆÃ
+                //ï¿½Ö´Ï¼ï¿½ï¿½ï¿½
                 playerAnimator.SetBool("IsCrouching", true);
-                //¾É±âÀÏ °æ¿ì 0, 0.49 ,0
+                //ï¿½É±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ 0, 0.49 ,0
                 characterController.center = new Vector3(0, 0.49f, 0);
-                //³ôÀÌ 1
+                //ï¿½ï¿½ï¿½ï¿½ 1
                 characterController.height = 1;
 
             }
@@ -168,11 +209,11 @@ public class PlayerController : Singleton<PlayerController>
             {
                 isCrouching = false;
                 moveSpeed = 1.0f;
-                //¾Ö´Ï¼¼ÆÃ
+                //ï¿½Ö´Ï¼ï¿½ï¿½ï¿½
                 playerAnimator.SetBool("IsCrouching", false);
-                //Ä³¸¯ÅÍ ÄÁÆ®·Ñ·¯ ÄÝ¸®Àü ¼¼ÆÃ ¼¾ÅÍ°ª 0 , 0.99 ,0
+                //Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ®ï¿½Ñ·ï¿½ ï¿½Ý¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Í°ï¿½ 0 , 0.99 ,0
                 characterController.center = new Vector3(0, 0.99f, 0);
-                //³ôÀÌ 1.8
+                //ï¿½ï¿½ï¿½ï¿½ 1.8
                 characterController.height = 1.8f;
             }
 
@@ -189,13 +230,13 @@ public class PlayerController : Singleton<PlayerController>
             attackType = PlayerAttackType.ASSASING;
             isCrouching = false;
             moveSpeed = 1.0f;
-            //¾Ö´Ï¼¼ÆÃ
+            //ï¿½Ö´Ï¼ï¿½ï¿½ï¿½
             //playerAnimator.SetLayerWeight(1, 1);
             playerAnimator.SetBool("IsCrouching", false);
             playerAnimator.SetTrigger("AssasingAttackStart");
-            //Ä³¸¯ÅÍ ÄÁÆ®·Ñ·¯ ÄÝ¸®Àü ¼¼ÆÃ ¼¾ÅÍ°ª 0 , 0.99 ,0
+            //Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ®ï¿½Ñ·ï¿½ ï¿½Ý¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Í°ï¿½ 0 , 0.99 ,0
             characterController.center = new Vector3(0, 0.99f, 0);
-            //³ôÀÌ 1.8
+            //ï¿½ï¿½ï¿½ï¿½ 1.8
             characterController.height = 1.8f;
             target.gameObject.GetComponent<CapsuleCollider>().isTrigger = true;
         }
@@ -214,6 +255,7 @@ public class PlayerController : Singleton<PlayerController>
                 AssaingAttack();
                 break;
             case PlayerAttackType.AIMMING:
+                AimmingAttack();
                 break;
         }
 
@@ -228,6 +270,7 @@ public class PlayerController : Singleton<PlayerController>
         if (attackType == PlayerAttackType.ASSASING)
         {
             target.transform.position = assasingPos.transform.position;
+            target.transform.rotation = assasingPos.transform.rotation;
         }
     }
 
@@ -342,7 +385,7 @@ public class PlayerController : Singleton<PlayerController>
         public override void Enter()
         {
             player.playerState = PlayerStateName.IDLE;
-            //¾Ö´Ï¸ÞÀÌ¼Ç ¼¼ÆÃ
+            //ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½ï¿½ï¿½ï¿½
             player.SetAnimatorFloat(0, 0);
             
             
