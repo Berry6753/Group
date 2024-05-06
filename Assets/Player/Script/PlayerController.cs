@@ -198,7 +198,6 @@ public class PlayerController : Singleton<PlayerController>
             //≥Ù¿Ã 1.8
             characterController.height = 1.8f;
             target.gameObject.GetComponent<CapsuleCollider>().isTrigger = true;
-            target.gameObject.GetComponent<Monster>().stateMachine.ChangeState(Monster.State.Assassinated);
         }
         
     }
