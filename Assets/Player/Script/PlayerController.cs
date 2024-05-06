@@ -23,6 +23,7 @@ public class PlayerController : Singleton<PlayerController>
     public CinemachineVirtualCamera overView;
     public CinemachineVirtualCamera aimView;
     public GameObject aim;
+    public GameObject gun;
 
     public GameObject sss;
 
@@ -52,7 +53,7 @@ public class PlayerController : Singleton<PlayerController>
     private float attakingTime = 3.0f;
     private float rootSpeed = 3.0f;
     private float yRotate;
-    private float xRoatte;
+    private float xRotate;
     private int comboCount = 0;
     private bool isCrouching = false;
     private bool isJump = false;
@@ -89,7 +90,7 @@ public class PlayerController : Singleton<PlayerController>
         //if (isAimming)
         //{
         //    aaa.rotation = Quaternion.Euler(0f, 0, yRotate * rootSpeed);
-
+        //    gun.transform.Rotate(0f, Input.GetAxis("Mouse X") * rootSpeed, yRotate * rootSpeed);
         //}
     }
 
@@ -109,6 +110,12 @@ public class PlayerController : Singleton<PlayerController>
         AttackingTimeCheck();
         MoveAssasingTarget();
         PlayerRotate();
+        if (isAimming)
+        {
+            //aaa.rotation = Quaternion.Euler(0f, 0, yRotate * rootSpeed);
+            //transform.Rotate(0f, Input.GetAxis("Mouse X") * rootSpeed, 0f);
+            gun.transform.Rotate(-yRotate * rootSpeed, 0f, 0f);
+        }
         aimView.LookAt = aim.transform;
     }
 
@@ -153,8 +160,9 @@ public class PlayerController : Singleton<PlayerController>
     private void PlayerRotate()
     {
         transform.Rotate(0f, Input.GetAxis("Mouse X") * rootSpeed, 0f);
-        //yRotate += Input.GetAxis("Mouse Y") * rootSpeed;
-       // yRotate = Mathf.Clamp(yRotate, 50, 100);
+        gun.transform.rotation = transform.rotation;
+        yRotate += Input.GetAxis("Mouse Y") * rootSpeed;
+        yRotate = Mathf.Clamp(yRotate, 50, 100);
         
 
 
