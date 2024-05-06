@@ -4400,6 +4400,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 872c2999c22c9f942a754d3a4010fe68, type: 3}
+--- !u!4 &553013019 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 145517260995251453, guid: 872c2999c22c9f942a754d3a4010fe68, type: 3}
+  m_PrefabInstance: {fileID: 553013018}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &557258620
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9338,7 +9343,7 @@ MonoBehaviour:
   m_StreamingVersion: 20170927
   m_Priority: 10
   m_StandbyUpdate: 2
-  m_LookAt: {fileID: 0}
+  m_LookAt: {fileID: 553013019}
   m_Follow: {fileID: 0}
   m_Lens:
     FieldOfView: 60
@@ -9365,7 +9370,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1179468919}
-  m_LocalRotation: {x: 0.20085664, y: -0.6271666, z: 0.1719835, w: 0.73262566}
+  m_LocalRotation: {x: 0.20943041, y: -0.6504801, z: 0.19351895, w: 0.70396376}
   m_LocalPosition: {x: 63.541172, y: 9.604664, z: -1.0175037}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
