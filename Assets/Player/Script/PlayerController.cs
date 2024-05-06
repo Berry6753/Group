@@ -87,11 +87,11 @@ public class PlayerController : Singleton<PlayerController>
 
     private void LateUpdate()
     {
-        //if (isAimming)
-        //{
-        //    aaa.rotation = Quaternion.Euler(0f, 0, yRotate * rootSpeed);
-        //    gun.transform.Rotate(0f, Input.GetAxis("Mouse X") * rootSpeed, yRotate * rootSpeed);
-        //}
+        if (isAimming)
+        {
+            //aaa.rotation = Quaternion.Euler(0f, 0, yRotate * rootSpeed);
+           // gun.transform.Rotate(yRotate * rootSpeed, 0, 0);
+        }
     }
 
     // Update is called once per frame
@@ -114,23 +114,27 @@ public class PlayerController : Singleton<PlayerController>
         {
             //aaa.rotation = Quaternion.Euler(0f, 0, yRotate * rootSpeed);
             //transform.Rotate(0f, Input.GetAxis("Mouse X") * rootSpeed, 0f);
-            gun.transform.Rotate(-yRotate * rootSpeed, 0f, 0f);
+            gun.transform.Rotate(yRotate , 0f, 0f);
         }
-        aimView.LookAt = aim.transform;
+        //aimView.LookAt = aim.transform;
     }
 
     private void OnAimming()
     {
         if (isAimming)
         {
-            overView.gameObject.SetActive(true);
-            aimView.gameObject.SetActive(false);
+            overView.Priority = 10;
+            aimView.Priority = 0;
+           // overView.gameObject.SetActive(true);
+           // aimView.gameObject.SetActive(false);
             isAimming = false;
         }
         else
         {
-            aimView.gameObject.SetActive(true);
-            overView.gameObject.SetActive(false);
+            overView.Priority = 0;
+            aimView.Priority = 10;
+            //aimView.gameObject.SetActive(true);
+           // overView.gameObject.SetActive(false);
             isAimming = true;
         }
     }
@@ -161,8 +165,8 @@ public class PlayerController : Singleton<PlayerController>
     {
         transform.Rotate(0f, Input.GetAxis("Mouse X") * rootSpeed, 0f);
         gun.transform.rotation = transform.rotation;
-        yRotate += Input.GetAxis("Mouse Y") * rootSpeed;
-        yRotate = Mathf.Clamp(yRotate, 50, 100);
+        yRotate += -Input.GetAxis("Mouse Y") * rootSpeed;
+        yRotate = Mathf.Clamp(yRotate, -80, 3);
         
 
 
