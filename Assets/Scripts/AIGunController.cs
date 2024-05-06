@@ -8,6 +8,12 @@ public class AIGunController : MonoBehaviour
     [SerializeField] private Gun gun;   // 현재 총
     [SerializeField] private GameObject enemy;
 
+    [Header("착용하고 있는 몬스터")]
+    [SerializeField]
+    private GameObject Monster;
+
+    private Monster monsterSightScript;
+
     private float currentFireRate;  // 연사 속도 계산
 
     private AudioSource audioSource;    // 효과음
@@ -17,19 +23,27 @@ public class AIGunController : MonoBehaviour
     public Transform laserStartPos;
     private float laserDuration = 0.05f;
     private LineRenderer laserLine;
-
-
+    private Vector3 targetPos;
 
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
         laserLine = GetComponent<LineRenderer>();
+
+        monsterSightScript = Monster.GetComponent<Monster>();
     }
 
     private void Update()
     {
         GunFireRateCalc();
-        Shoot();
+        //Shoot();
+
+        if(monsterSightScript.monsterSight.target != null)
+        {
+            targetPos = monsterSightScript.monsterSight.target.position;
+        }
+
+        Debug.DrawRay(enemy.transform.position, (targetPos - enemy.transform.position + new Vector3(0,1,0)).normalized, Color.red);
     }
 
     // 연사속도 재계산
@@ -42,7 +56,7 @@ public class AIGunController : MonoBehaviour
     }
 
     // 발사 후 계산
-    private void Shoot()
+    public void Shoot()
     {
         if(currentFireRate <= 0)
         {
@@ -58,7 +72,7 @@ public class AIGunController : MonoBehaviour
     {
         float forwardX = Random.Range(-gun.accuracy, gun.accuracy);
         float forwardY = Random.Range(-gun.accuracy, gun.accuracy);
-        if (Physics.Raycast(enemy.transform.position, enemy.transform.forward +
+        if (Physics.Raycast(enemy.transform.position, (targetPos - enemy.transform.position + new Vector3(0, 1, 0)).normalized +
             new Vector3(forwardX, forwardY, 0f), out hit, gun.range))
         {
             laserLine.SetPosition(1, hit.point);
