@@ -208,23 +208,33 @@ public class Monster : MonoBehaviour
 
         private void ChangePatrolPoint()
         {
-            if (Vector3.Distance(owner.transform.position, targetPos) <= 0.2f)
+            if (Vector3.Distance(owner.transform.position, targetPos) <= 50f && GameManger.Instance.isBattle) 
             {
-                if (patrolPointIndex >= PatrolPoint.Count - 1)
-                {
-                    NextPatrolPointIndex = -1;
-                }
-                else if (patrolPointIndex <= 0)
-                {
-                    NextPatrolPointIndex = 1;
-                }
-
-                patrolPointIndex += NextPatrolPointIndex;
+                targetPos = PlayerController.Instance.gameObject.transform.position;
+            }
+            else
+            {
                 targetPos = PatrolPoint[patrolPointIndex].position;
 
-                //주위 둘러보는 State로 변경
-                owner.stateMachine.ChangeState(State.LookAround);
+                if (Vector3.Distance(owner.transform.position, targetPos) <= 0.2f)
+                {
+                    if (patrolPointIndex >= PatrolPoint.Count - 1)
+                    {
+                        NextPatrolPointIndex = -1;
+                    }
+                    else if (patrolPointIndex <= 0)
+                    {
+                        NextPatrolPointIndex = 1;
+                    }
+
+                    patrolPointIndex += NextPatrolPointIndex;
+                    targetPos = PatrolPoint[patrolPointIndex].position;
+
+                    //주위 둘러보는 State로 변경
+                    owner.stateMachine.ChangeState(State.LookAround);
+                }
             }
+            
         }
 
         public override void FixedUpdate()

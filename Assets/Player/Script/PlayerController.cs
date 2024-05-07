@@ -27,6 +27,7 @@ public class PlayerController : Singleton<PlayerController>
     public GameObject gun;
     public GameObject cross;
     public GameObject skin;
+    public GameObject gunSkin;
 
     public GameObject sss;
 
@@ -142,6 +143,7 @@ public class PlayerController : Singleton<PlayerController>
             {
                 gun.SetActive(false);
                 cross.SetActive(false);
+                gunSkin.SetActive(true);
                 skin.GetComponent<SkinnedMeshRenderer>().enabled = true;
                 overView.Priority = 10;
                 aimView.Priority = 0;
@@ -153,6 +155,7 @@ public class PlayerController : Singleton<PlayerController>
             else
             {
                 gun.SetActive(true);
+                gunSkin.SetActive(false);
                 cross.SetActive(true);
                 skin.GetComponent<SkinnedMeshRenderer>().enabled = false;
                 attackType = PlayerAttackType.AIMMING;
