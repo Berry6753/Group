@@ -390,6 +390,8 @@ public class Monster : MonoBehaviour
             owner.animator.SetBool(owner.hashIdle, false);
             //공격 받는 애니메이션
             owner.animator.SetTrigger(owner.hashDie);
+
+            owner.gameObject.layer = 8;
         }
     }
 }

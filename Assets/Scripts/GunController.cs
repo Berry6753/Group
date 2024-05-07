@@ -25,6 +25,7 @@ public class GunController : MonoBehaviour
 
     [SerializeField] private GameObject hit_effect_prefab;
 
+    public LayerMask mask;
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
@@ -93,7 +94,7 @@ public class GunController : MonoBehaviour
         if (Physics.Raycast(cam.transform.position, cam.transform.forward +
             new Vector3(Random.Range(-crosshair.GetAccuracy() - gun.accuracy, crosshair.GetAccuracy() + gun.accuracy),
             Random.Range(-crosshair.GetAccuracy() - gun.accuracy, crosshair.GetAccuracy() + gun.accuracy), 0f)
-            , out hit, gun.range))
+            , out hit, gun.range, mask))
         {
             Debug.DrawRay(cam.transform.position, cam.transform.forward*gun.range, Color.red);
             if (hit.transform.gameObject.CompareTag("Monster"))

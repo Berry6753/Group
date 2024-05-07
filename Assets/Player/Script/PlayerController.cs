@@ -480,11 +480,16 @@ public class PlayerController : Singleton<PlayerController>
 
         public override void Enter()
         {
+            player.gun.SetActive(true);
+            player.gunSkin.SetActive(false);
+            player.cross.SetActive(true);
+            player.skin.GetComponent<SkinnedMeshRenderer>().enabled = false;
+
             player.playerState = PlayerStateName.DEAD;
             player.playerAnimator.SetTrigger("isDead");
             //�ִϸ��̼� ����
 
-
+            player.isAimming = false;
         }
 
         public override void Update()
