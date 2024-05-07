@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using UnityEngine.InputSystem.HID;
 
 public class GunController : MonoBehaviour
 {
@@ -97,7 +98,9 @@ public class GunController : MonoBehaviour
             Debug.DrawRay(cam.transform.position, cam.transform.forward*gun.range, Color.red);
             if (hit.transform.gameObject.CompareTag("Monster"))
             {
+                hit.transform.gameObject.GetComponent<Monster>().Hurt(50);
                 GameObject clone = Instantiate(hit_effect_prefab, hit.point, Quaternion.LookRotation(hit.normal));
+                
                 Debug.Log(hit.transform.name);
                 Destroy(clone, 2f);
             }
