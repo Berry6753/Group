@@ -340,6 +340,7 @@ public class Boss : MonoBehaviour
         public override void Enter()
         {
             owner.agent.isStopped = true;
+            GameManger.Instance.isClear = true;
             owner.transform.tag = "Dead";
 
             owner.animator.SetBool(owner.hashWalk, false);
