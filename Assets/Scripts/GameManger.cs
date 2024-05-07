@@ -6,6 +6,7 @@ public class GameManger : Singleton<GameManger>
 {
 
     public bool isClear;
+    public bool isBattle;
 
     // Start is called before the first frame update
     void Start()

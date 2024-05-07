@@ -151,7 +151,7 @@ public class Monster : MonoBehaviour
     }
 
     //Hurt
-    private void Hurt(float Damage)
+    public void Hurt(float Damage)
     {
         this.HP -= Damage;
         if (HP <= 0 || isAmbushed)
@@ -248,6 +248,7 @@ public class Monster : MonoBehaviour
         public override void Enter()
         {
             owner.state = State.Trace;
+            GameManger.Instance.isBattle = true;
             targetPos = owner.monsterSight.target.position;
             owner.agent.isStopped = false;
             owner.animator.SetBool(owner.hashIdle, true);

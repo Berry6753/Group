@@ -5,13 +5,13 @@ using Cinemachine;
 
 public class GunController : MonoBehaviour
 {
-    [SerializeField] private Gun gun;   // 현재 총
+    public Gun gun;   // 현재 총
     private float currentFireRate;  // 연사 속도 계산
 
     private AudioSource audioSource;    // 효과음
 
     // 상태 변수
-    private bool isReload = false;
+    public bool isReload = false;
     [HideInInspector] public bool isfineSightMode = false;
 
     [SerializeField] private Vector3 originPos; //원래 포지션 값
@@ -34,9 +34,9 @@ public class GunController : MonoBehaviour
     {
         GunFireRateCalc();
         //TryFire();
-        TryReload();
+        //TryReload();
         //TryFindSight();
-        //Debug.DrawRay(cam.transform.position, cam.transform.forward, Color.red, gun.range);
+        
     }
 
     // 연사속도 재계산
@@ -94,7 +94,8 @@ public class GunController : MonoBehaviour
             Random.Range(-crosshair.GetAccuracy() - gun.accuracy, crosshair.GetAccuracy() + gun.accuracy), 0f)
             , out hit, gun.range))
         {
-            if (hit.transform.CompareTag("Monster"))
+            Debug.DrawRay(cam.transform.position, cam.transform.forward*gun.range, Color.red);
+            if (hit.transform.gameObject.CompareTag("Monster"))
             {
                 GameObject clone = Instantiate(hit_effect_prefab, hit.point, Quaternion.LookRotation(hit.normal));
                 Debug.Log(hit.transform.name);
@@ -133,16 +134,33 @@ public class GunController : MonoBehaviour
     }
 
     // 재장전 시도
-    private void TryReload()
+    public void Reload()
     {
-        if (Input.GetKeyDown(KeyCode.R) && !isReload && gun.currentBulletCount < gun.reloadBulletCount)
-        {
-            StartCoroutine(Reload());
-        }
+            // StartCoroutine(IReload());
+            if (gun.carryBulletCount > 0)
+            {
+                isReload = true;
+
+
+                gun.carryBulletCount += gun.currentBulletCount;   //재장전시 총알 유지
+                gun.currentBulletCount = 0;
+
+            if (gun.carryBulletCount >= gun.reloadBulletCount)
+                {
+                    gun.currentBulletCount = gun.reloadBulletCount;
+                    gun.carryBulletCount -= gun.reloadBulletCount;
+                }
+                else
+                {
+                    gun.currentBulletCount = gun.carryBulletCount;
+                }
+
+                isReload = false;
+            }
     }
 
     // 재장전
-    private IEnumerator Reload()
+    private IEnumerator IReload()
     {
         if(gun.carryBulletCount > 0)
         {
