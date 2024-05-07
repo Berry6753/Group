@@ -10,7 +10,7 @@ public class CheckAssing : MonoBehaviour
         {
             PlayerController.Instance.isAssasing = true;
             PlayerController.Instance.target = other.gameObject;
-        }
+        }        
     }
 
     private void OnTriggerExit(Collider other)

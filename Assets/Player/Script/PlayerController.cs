@@ -64,6 +64,8 @@ public class PlayerController : Singleton<PlayerController>
     private bool isAimming = false;
     private bool isAssasingAttack = false;
 
+    public GameObject Gun;
+    private GunController gunController;
 
 
     private void Start()
@@ -84,6 +86,8 @@ public class PlayerController : Singleton<PlayerController>
         gun.SetActive(false);
         cross.SetActive(false);
         jumpDirection.y = jumpForce;
+
+        gunController = Gun.GetComponent<GunController>();
     }
 
     private void LateUpdate()
@@ -181,6 +185,7 @@ public class PlayerController : Singleton<PlayerController>
     private void AimmingAttack()
     {
         attackTime = Time.time;
+        GameManger.Instance.isBattle = true;
         isAttack = true;
         gun.GetComponent<GunController>().TryFire();
     }
@@ -198,6 +203,18 @@ public class PlayerController : Singleton<PlayerController>
         
 
 
+    }
+
+    public void OnReload()
+    {
+        if(!gunController.isReload && gunController.gun.currentBulletCount < gunController.gun.reloadBulletCount)
+        playerAnimator.SetBool("Reload", true);
+    }
+
+    public void ReloadEnd()
+    {
+        gunController.Reload();
+        playerAnimator.SetBool("Reload", false);
     }
 
     private void PlayerYRoatate()
@@ -255,6 +272,8 @@ public class PlayerController : Singleton<PlayerController>
             //���� 1.8
             characterController.height = 1.8f;
             target.gameObject.GetComponent<CapsuleCollider>().isTrigger = true;
+
+            target.gameObject.GetComponent<Monster>().isAmbushed = true;
         }
         
     }
@@ -294,7 +313,11 @@ public class PlayerController : Singleton<PlayerController>
     {
         playerAnimator.SetTrigger("AssasingAttackFinish");
         target.GetComponent<Monster>().Hurt(100);
+        target.GetComponent<Monster>().isAmbushed = false;
         attackType = PlayerAttackType.NOMAL;
+
+        PlayerController.Instance.isAssasing = false;
+        PlayerController.Instance.target = null;
     }
 
     private void NomalAttack()
