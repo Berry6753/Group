@@ -56,9 +56,9 @@ public class Monster : MonoBehaviour
     [Space(10)]
     [Header("패트롤할 포인트")]
     [SerializeField]
-    private Transform PatrolPointGroup;
-
     private List<Transform> PatrolPoint;
+
+
 
     private AIGunController Gun;
 
@@ -68,12 +68,6 @@ public class Monster : MonoBehaviour
         animator = GetComponent<Animator>();
         monsterSight = GetComponent<View>();
 
-        PatrolPoint = new List<Transform>();
-
-        for (int i = 0; i < PatrolPointGroup.childCount; i++)
-        {
-            PatrolPoint.Add(PatrolPointGroup.GetChild(i));
-        }
 
         stateMachine = gameObject.AddComponent<StateMachine>();
         stateMachine.AddState(State.Idle, new IdleState(this));
