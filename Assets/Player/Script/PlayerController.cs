@@ -6,7 +6,7 @@ using Cinemachine;
 
 public enum PlayerStateName
 {
-    IDLE, WALK, ASSASING
+    IDLE, WALK, ASSASING,DEAD
 }
 
 public enum PlayerAttackType
@@ -18,6 +18,7 @@ public enum PlayerAttackType
 public class PlayerController : Singleton<PlayerController>
 {
     public float moveSpeed;
+    public int hp = 100;
     public bool isAssasing;
     public bool isGround = true;
     public CinemachineVirtualCamera overView;
@@ -44,7 +45,7 @@ public class PlayerController : Singleton<PlayerController>
 
     private StateMachine playerStateMachine;
     private Vector3 moveDirection;
-    private Vector3 jumpDirection = new Vector3(0, 0, 0);
+    public Vector3 jumpDirection = new Vector3(0, 0, 0);
     private PlayerAttackType attackType = PlayerAttackType.NOMAL;
     private Transform aaa;
 
@@ -58,7 +59,7 @@ public class PlayerController : Singleton<PlayerController>
     private float xRotate;
     private int comboCount = 0;
     private bool isCrouching = false;
-    private bool isJump = false;
+    public bool isJump = false;
     private bool isAttack = false;
     private bool isAimming = false;
     private bool isAssasingAttack = false;
@@ -75,6 +76,7 @@ public class PlayerController : Singleton<PlayerController>
         aimView.Priority = 0;
         playerStateMachine.AddState(PlayerStateName.IDLE, new IdleState(this));
         playerStateMachine.AddState(PlayerStateName.WALK, new WalkState(this));
+        playerStateMachine.AddState(PlayerStateName.DEAD, new DeadState(this));
         playerStateMachine.InitState(PlayerStateName.IDLE);
         aaa = playerAnimator.GetBoneTransform(HumanBodyBones.Spine);
         leftHandAttackPos.SetActive(false);
@@ -82,11 +84,6 @@ public class PlayerController : Singleton<PlayerController>
         gun.SetActive(false);
         cross.SetActive(false);
         jumpDirection.y = jumpForce;
-    }
-
-    private void FixedUpdate()
-    {
-
     }
 
     private void LateUpdate()
@@ -101,54 +98,68 @@ public class PlayerController : Singleton<PlayerController>
     // Update is called once per frame
     void Update()
     {
-        if (!isGround)
+        if (playerState != PlayerStateName.DEAD)
         {
-            jumpDirection.y += gravtyScale;
-            characterController.Move(jumpDirection * Time.deltaTime);
-        }
-        else
-        {
-            jumpDirection.y = jumpForce;
-        }
+            if (!isGround)
+            {
+                jumpDirection.y += gravtyScale;
+                characterController.Move(jumpDirection * Time.deltaTime);
+            }
+            if (Input.GetKey(KeyCode.K))
+            {
+                hp = 0;
+            }
 
-        AttackingTimeCheck();
-        MoveAssasingTarget();
-        PlayerRotate();
-        if (isAimming)
-        {
-            //aaa.rotation = Quaternion.Euler(0f, 0, yRotate * rootSpeed);
-            //transform.Rotate(0f, Input.GetAxis("Mouse X") * rootSpeed, 0f);
-            gun.transform.Rotate(yRotate , 0f, 0f);
+
+            AttackingTimeCheck();
+            MoveAssasingTarget();
+            PlayerRotate();
+            if (isAimming)
+            {
+                //aaa.rotation = Quaternion.Euler(0f, 0, yRotate * rootSpeed);
+                //transform.Rotate(0f, Input.GetAxis("Mouse X") * rootSpeed, 0f);
+                gun.transform.Rotate(yRotate, 0f, 0f);
+            }
+            //aimView.LookAt = aim.transform;
+
+            if (hp <= 0)
+            {
+                playerStateMachine.ChangeState(PlayerStateName.DEAD);
+            }
         }
-        //aimView.LookAt = aim.transform;
+        
     }
 
     private void OnAimming()
     {
-        if (isAimming)
+        if(playerState != PlayerStateName.DEAD)
         {
-            gun.SetActive(false);
-            cross.SetActive(false);
-            skin.GetComponent<SkinnedMeshRenderer>().enabled = true;
-            overView.Priority = 10;
-            aimView.Priority = 0;
-            // overView.gameObject.SetActive(true);
-            // aimView.gameObject.SetActive(false);
-            attackType = PlayerAttackType.NOMAL;
-            isAimming = false;
+            if (isAimming)
+            {
+                gun.SetActive(false);
+                cross.SetActive(false);
+                skin.GetComponent<SkinnedMeshRenderer>().enabled = true;
+                overView.Priority = 10;
+                aimView.Priority = 0;
+                // overView.gameObject.SetActive(true);
+                // aimView.gameObject.SetActive(false);
+                attackType = PlayerAttackType.NOMAL;
+                isAimming = false;
+            }
+            else
+            {
+                gun.SetActive(true);
+                cross.SetActive(true);
+                skin.GetComponent<SkinnedMeshRenderer>().enabled = false;
+                attackType = PlayerAttackType.AIMMING;
+                overView.Priority = 0;
+                aimView.Priority = 10;
+                //aimView.gameObject.SetActive(true);
+                // overView.gameObject.SetActive(false);
+                isAimming = true;
+            }
         }
-        else
-        {
-            gun.SetActive(true);
-            cross.SetActive(true);
-            skin.GetComponent<SkinnedMeshRenderer>().enabled = false;
-            attackType = PlayerAttackType.AIMMING;
-            overView.Priority = 0;
-            aimView.Priority = 10;
-            //aimView.gameObject.SetActive(true);
-           // overView.gameObject.SetActive(false);
-            isAimming = true;
-        }
+        
     }
 
     private void OnDash()
@@ -169,9 +180,14 @@ public class PlayerController : Singleton<PlayerController>
 
     private void AimmingAttack()
     {
+        attackTime = Time.time;
+        isAttack = true;
         gun.GetComponent<GunController>().TryFire();
     }
-
+     public void Hit(int damge)
+    {
+        hp -= damge;
+    }
 
     private void PlayerRotate()
     {
@@ -277,6 +293,7 @@ public class PlayerController : Singleton<PlayerController>
     private void AssaingAttack()
     {
         playerAnimator.SetTrigger("AssasingAttackFinish");
+        target.GetComponent<Monster>().Hurt(100);
         attackType = PlayerAttackType.NOMAL;
     }
 
@@ -332,6 +349,7 @@ public class PlayerController : Singleton<PlayerController>
         {
             isAttack = false;
             comboCount = 0;
+            hp = 100;
             playerAnimator.SetBool("IsAttack", false);
             //playerAnimator.SetLayerWeight(1, 0);
         }
@@ -340,9 +358,11 @@ public class PlayerController : Singleton<PlayerController>
 
     private void OnJump()
     {
-        if (isGround && !isAssasing)
+        if (isGround && !isAssasing&&!isJump)
         {
+            jumpDirection.y = jumpForce;
             isGround = false;
+            isJump = true;
             playerAnimator.SetBool("IsGround", isGround);
         }
 
@@ -410,18 +430,39 @@ public class PlayerController : Singleton<PlayerController>
 
         public override void Update()
         {
-            player.characterController.Move(player.transform.TransformDirection( player.moveDirection) * player.moveSpeed * Time.deltaTime);
-            if (player.isGround)
+            if(player.playerState != PlayerStateName.DEAD)
             {
-                player.SetAnimatorFloat(player.moveDirection.x * player.moveSpeed, player.moveDirection.z * player.moveSpeed);
+                player.characterController.Move(player.transform.TransformDirection(player.moveDirection) * player.moveSpeed * Time.deltaTime);
+                if (player.isGround)
+                {
+                    player.SetAnimatorFloat(player.moveDirection.x * player.moveSpeed, player.moveDirection.z * player.moveSpeed);
 
+                }
+
+
+                if (player.characterController.velocity.magnitude == 0)
+                {
+                    player.playerStateMachine.ChangeState(PlayerStateName.IDLE);
+                }
             }
+           
+        }
+    }
+    private class DeadState : PlayerBaseState
+    {
+        public DeadState(PlayerController player) : base(player) { }
+
+        public override void Enter()
+        {
+            player.playerState = PlayerStateName.DEAD;
+            player.playerAnimator.SetTrigger("isDead");
+            //�ִϸ��̼� ����
 
 
-            if (player.characterController.velocity.magnitude == 0)
-            {
-                player.playerStateMachine.ChangeState(PlayerStateName.IDLE);
-            }
+        }
+
+        public override void Update()
+        {
         }
     }
 

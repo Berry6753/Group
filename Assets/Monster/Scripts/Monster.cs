@@ -151,7 +151,7 @@ public class Monster : MonoBehaviour
     }
 
     //Hurt
-    private void Hurt(float Damage)
+    public void Hurt(float Damage)
     {
         this.HP -= Damage;
         if (HP <= 0 || isAmbushed)

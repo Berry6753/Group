@@ -6,22 +6,23 @@ public class CheckGround : MonoBehaviour
 {
     public void OnTriggerEnter(Collider other)
     {
-        Debug.Log("c");
         if (other.CompareTag("Ground"))
         {
             PlayerController.Instance.isGround = true;
+            PlayerController.Instance.isJump = false;
             PlayerController.Instance.playerAnimator.SetBool("IsGround", PlayerController.Instance.isGround);
-            Debug.Log("a");
         }
     }
 
-    //public void OnTriggerExit(Collider other)
-    //{
-    //    Debug.Log("d");
-    //    if (other.CompareTag("Ground"))
-    //    {
-    //        PlayerController.Instance.isGround = false;
-    //        Debug.Log("b");
-    //    }
-    //}
+    public void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Ground"))
+        {
+            PlayerController.Instance.isGround = false;
+            if(!PlayerController.Instance.isJump)
+            {
+                PlayerController.Instance.jumpDirection.y= 0;
+            }
+        }
+    }
 }

@@ -4746,7 +4746,7 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2452591571461295187}
   m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 15d0d7963b3239747b5f7a2fc359b7ae, type: 2}
+  m_Avatar: {fileID: 9000000, guid: a4a3ba617ed9c5946bb76844ec1ef299, type: 3}
   m_Controller: {fileID: 9100000, guid: 262f7f01bba456641b991706363ab235, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
@@ -4789,6 +4789,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 1
+  hp: 100
   isAssasing: 0
   isGround: 1
   overView: {fileID: 0}
@@ -4801,9 +4802,11 @@ MonoBehaviour:
   target: {fileID: 0}
   playerAnimator: {fileID: 0}
   playerState: 0
-  assasingPos: {fileID: 490803372}
+  assasingPos: {fileID: 2726940888312835971}
   leftHandAttackPos: {fileID: 2738597464321983497}
   rightHandAttackPos: {fileID: 8696494426045114301}
+  jumpDirection: {x: 0, y: 0, z: 0}
+  isJump: 0
 --- !u!114 &1363459135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6067,6 +6070,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2724942491420382257}
   - component: {fileID: 6091883298206204643}
+  - component: {fileID: 2949574541177476522}
   m_Layer: 0
   m_Name: LeftAttackPos
   m_TagString: Untagged
@@ -6102,6 +6106,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.15, y: 0.15, z: 0.15}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2949574541177476522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2738597464321983497}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f6f3fc57620498419f2ac2ce7287186, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2816920903130730570
 GameObject:
   m_ObjectHideFlags: 0
@@ -17869,6 +17885,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2934379088624505690}
   - component: {fileID: 6464491211539967309}
+  - component: {fileID: 4519403778529880601}
   m_Layer: 0
   m_Name: RightAttackPos
   m_TagString: Untagged
@@ -17904,6 +17921,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.15, y: 0.15, z: 0.15}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4519403778529880601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8696494426045114301}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f6f3fc57620498419f2ac2ce7287186, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8739812588281370402
 GameObject:
   m_ObjectHideFlags: 0
@@ -19126,6 +19155,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4514138677606488749}
     m_Modifications:
+    - target: {fileID: 1499614462933033743, guid: 72f6410e9bc76f441b428c42ce1d833d, type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4903119439663421484, guid: 72f6410e9bc76f441b428c42ce1d833d, type: 3}
       propertyPath: m_Enabled
       value: 0
