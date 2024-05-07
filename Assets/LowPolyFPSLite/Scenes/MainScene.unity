@@ -4490,6 +4490,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GunUI
       objectReference: {fileID: 0}
+    - target: {fileID: 4769238065694849293, guid: 1c56ddc4918dba74893310f04a6cce53, type: 3}
+      propertyPath: m_UiScaleMode
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4769238065694849294, guid: 1c56ddc4918dba74893310f04a6cce53, type: 3}
       propertyPath: m_SortingOrder
       value: -1
@@ -4580,6 +4584,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4769238065694849295, guid: 1c56ddc4918dba74893310f04a6cce53, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4769238065731979798, guid: 1c56ddc4918dba74893310f04a6cce53, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 4769238065731979798, guid: 1c56ddc4918dba74893310f04a6cce53, type: 3}
+      propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4769238065731979799, guid: 1c56ddc4918dba74893310f04a6cce53, type: 3}
@@ -12659,7 +12671,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1179468919}
-  m_LocalRotation: {x: 0.106340446, y: -0.70662636, z: 0.10873771, w: 0.69104785}
+  m_LocalRotation: {x: 0.107727714, y: -0.69769603, z: 0.10736349, w: 0.70006293}
   m_LocalPosition: {x: 53.64, y: 2.1499996, z: 0.48760006}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
