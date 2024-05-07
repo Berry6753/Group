@@ -78,8 +78,9 @@ public class AIGunController : MonoBehaviour
             laserLine.SetPosition(1, hit.point);
             Debug.Log(hit.transform.name);
             if(hit.transform.CompareTag("Player"))
-            { 
+            {
                 //player 체력 감소
+                PlayerController.Instance.Hit(20);
             }
         }
         else

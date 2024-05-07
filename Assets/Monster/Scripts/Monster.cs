@@ -56,9 +56,9 @@ public class Monster : MonoBehaviour
     [Space(10)]
     [Header("패트롤할 포인트")]
     [SerializeField]
-    private Transform PatrolPointGroup;
-
     private List<Transform> PatrolPoint;
+
+
 
     private AIGunController Gun;
 
@@ -68,12 +68,6 @@ public class Monster : MonoBehaviour
         animator = GetComponent<Animator>();
         monsterSight = GetComponent<View>();
 
-        PatrolPoint = new List<Transform>();
-
-        for (int i = 0; i < PatrolPointGroup.childCount; i++)
-        {
-            PatrolPoint.Add(PatrolPointGroup.GetChild(i));
-        }
 
         stateMachine = gameObject.AddComponent<StateMachine>();
         stateMachine.AddState(State.Idle, new IdleState(this));
@@ -151,7 +145,7 @@ public class Monster : MonoBehaviour
     }
 
     //Hurt
-    private void Hurt(float Damage)
+    public void Hurt(float Damage)
     {
         this.HP -= Damage;
         if (HP <= 0 || isAmbushed)
@@ -214,23 +208,33 @@ public class Monster : MonoBehaviour
 
         private void ChangePatrolPoint()
         {
-            if (Vector3.Distance(owner.transform.position, targetPos) <= 0.2f)
+            if (Vector3.Distance(owner.transform.position, targetPos) <= 50f && GameManger.Instance.isBattle) 
             {
-                if (patrolPointIndex >= PatrolPoint.Count - 1)
-                {
-                    NextPatrolPointIndex = -1;
-                }
-                else if (patrolPointIndex <= 0)
-                {
-                    NextPatrolPointIndex = 1;
-                }
-
-                patrolPointIndex += NextPatrolPointIndex;
+                targetPos = PlayerController.Instance.gameObject.transform.position;
+            }
+            else
+            {
                 targetPos = PatrolPoint[patrolPointIndex].position;
 
-                //주위 둘러보는 State로 변경
-                owner.stateMachine.ChangeState(State.LookAround);
+                if (Vector3.Distance(owner.transform.position, targetPos) <= 0.2f)
+                {
+                    if (patrolPointIndex >= PatrolPoint.Count - 1)
+                    {
+                        NextPatrolPointIndex = -1;
+                    }
+                    else if (patrolPointIndex <= 0)
+                    {
+                        NextPatrolPointIndex = 1;
+                    }
+
+                    patrolPointIndex += NextPatrolPointIndex;
+                    targetPos = PatrolPoint[patrolPointIndex].position;
+
+                    //주위 둘러보는 State로 변경
+                    owner.stateMachine.ChangeState(State.LookAround);
+                }
             }
+            
         }
 
         public override void FixedUpdate()
@@ -248,6 +252,7 @@ public class Monster : MonoBehaviour
         public override void Enter()
         {
             owner.state = State.Trace;
+            GameManger.Instance.isBattle = true;
             targetPos = owner.monsterSight.target.position;
             owner.agent.isStopped = false;
             owner.animator.SetBool(owner.hashIdle, true);
